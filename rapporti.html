@@ -36,17 +36,90 @@
 
   <div class="container">
     <div class="section-title">
-      <h2>📝 Rapporti</h2>
+      <h2>Rapporti Portieri</h2>
+      <button class="btn-primary" id="btnNuovoRapporto">+ Nuovo rapporto</button>
     </div>
-    <p style="color:var(--testo-chiaro);">🚧 Questa sezione arriva nel prossimo aggiornamento!</p>
+
+    <div class="rapporti-layout">
+      <div class="rapporti-lista-giocatori" id="listaGiocatoriRapporti">
+        <div class="loading">Caricamento...</div>
+      </div>
+      <div class="rapporti-dettaglio" id="dettaglioRapporti">
+        <p style="color:var(--testo-chiaro); text-align:center; padding:40px 20px;">👈 Seleziona un portiere per vedere i suoi rapporti</p>
+      </div>
+    </div>
   </div>
   </div>
   </div>
 
-  <script type="module">
-    import { proteggiPagina, collegaLogout } from "./js/auth-guard.js";
-    await proteggiPagina();
-    collegaLogout();
-  </script>
+  <!-- ===== MODALE RAPPORTO ===== -->
+  <div class="overlay" id="overlayRapporto">
+    <div class="modale" style="max-width:560px;">
+      <h2 id="modaleTitoloRapp">Nuovo rapporto</h2>
+
+      <div class="campo">
+        <label>Portiere</label>
+        <select id="campoGiocatoreRapp"></select>
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <div class="campo" style="flex:1;">
+          <label>Data</label>
+          <input type="date" id="campoDataRapp">
+        </div>
+        <div class="campo" style="flex:1;">
+          <label>Contesto</label>
+          <input type="text" id="campoContestoRapp" placeholder="Es. Allenamento mensile, Partita...">
+        </div>
+        <div class="campo" style="width:100px;">
+          <label>Voto (1-5)</label>
+          <input type="number" id="campoVotoRapp" min="1" max="5" value="3">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Comportamento</label>
+        <textarea id="campoComportamentoRapp" rows="2" placeholder="Comportamento in allenamento/partita..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>🧤 Presa della palla (alta e bassa)</label>
+        <textarea id="campoPresaRapp" rows="2" placeholder="Sicurezza nelle prese, blocco a terra..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>🏃 Uscite</label>
+        <textarea id="campoUsciteRapp" rows="2" placeholder="Anticipo sull'avversario, uno contro uno..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>🦵 Rinvio (mani e piedi)</label>
+        <textarea id="campoRinvioRapp" rows="2" placeholder="Precisione e potenza dei rinvii..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>📍 Posizionamento</label>
+        <textarea id="campoPosizionamentoRapp" rows="2" placeholder="Lettura del gioco, piazzamento in porta..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Da migliorare</label>
+        <textarea id="campoMigliorareRapp" rows="2" placeholder="Aspetti su cui lavorare..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Note</label>
+        <textarea id="campoNoteRapp" rows="2" placeholder="Note aggiuntive..."></textarea>
+      </div>
+
+      <div class="modale-azioni">
+        <button class="btn-danger" id="btnEliminaRapporto" style="display:none;">Elimina</button>
+        <button class="btn-secondary" id="btnAnnullaRapporto">Annulla</button>
+        <button class="btn-primary" id="btnSalvaRapporto">Salva</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/rapporti.js"></script>
 </body>
 </html>
