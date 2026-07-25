@@ -36,17 +36,132 @@
 
   <div class="container">
     <div class="section-title">
-      <h2>📋 Allenamenti</h2>
+      <h2>Allenamenti Portieri</h2>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-secondary" id="btnGeneraConAI">🤖 Genera con AI</button>
+        <button class="btn-primary" id="btnNuovoAllenamento">+ Nuovo allenamento</button>
+      </div>
     </div>
-    <p style="color:var(--testo-chiaro);">🚧 Questa sezione arriva nel prossimo aggiornamento!</p>
+
+    <div id="listaAllenamenti">
+      <div class="loading">Caricamento allenamenti...</div>
+    </div>
   </div>
   </div>
   </div>
 
-  <script type="module">
-    import { proteggiPagina, collegaLogout } from "./js/auth-guard.js";
-    await proteggiPagina();
-    collegaLogout();
-  </script>
+  <!-- ===== MODALE ALLENAMENTO ===== -->
+  <div class="overlay" id="overlayAllenamento">
+    <div class="modale" style="max-width:600px;">
+      <h2 id="modaleTitoloAll">Allenamento</h2>
+
+      <div class="campo">
+        <label>Titolo</label>
+        <input type="text" id="campoTitolo" placeholder="Es. Lavoro sulla presa bassa">
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <div class="campo" style="flex:1;">
+          <label>Data</label>
+          <input type="date" id="campoData">
+        </div>
+        <div class="campo" style="flex:1;">
+          <label>Ora</label>
+          <input type="time" id="campoOra">
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <div class="campo" style="flex:1;">
+          <label>Luogo</label>
+          <input type="text" id="campoLuogo" placeholder="Es. San Giovanni">
+        </div>
+        <div class="campo" style="flex:1;">
+          <label>Tipo</label>
+          <select id="campoTipo">
+            <option value="Normale">Normale</option>
+            <option value="Diagnostico">Diagnostico</option>
+            <option value="Recupero">Recupero</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Note</label>
+        <textarea id="campoNote" rows="3" placeholder="Note sulla sessione..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Aggiungi dalla libreria esercizi</label>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <select id="selCategoriaLibreria" style="flex:1; min-width:140px; padding:8px; border:1px solid var(--bordo); border-radius:6px;">
+            <option value="">Categoria...</option>
+          </select>
+          <select id="selEsercizioLibreria" style="flex:2; min-width:180px; padding:8px; border:1px solid var(--bordo); border-radius:6px;" disabled>
+            <option value="">Scegli prima la categoria</option>
+          </select>
+          <button type="button" class="btn-secondary" id="btnAggiungiDaLibreria">+ Aggiungi</button>
+        </div>
+        <p id="descEsercizioLibreria" style="font-size:0.85rem; color:var(--testo-chiaro); margin-top:6px; min-height:18px;"></p>
+      </div>
+
+      <div class="campo">
+        <label>Esercizi della sessione</label>
+        <div id="listaEserciziForm"></div>
+        <button type="button" class="btn-secondary" id="btnAggiungiEsercizio" style="margin-top:8px;">+ Aggiungi esercizio manuale</button>
+      </div>
+
+      <div class="modale-azioni">
+        <button class="btn-danger" id="btnEliminaAllenamento" style="display:none;">Elimina</button>
+        <button class="btn-secondary" id="btnAnnullaAllenamento">Annulla</button>
+        <button class="btn-primary" id="btnSalvaAllenamento">Salva</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODALE GENERA ALLENAMENTO CON AI ===== -->
+  <div class="overlay" id="overlayGeneraAI">
+    <div class="modale" style="max-width:600px;">
+      <h2>🤖 Genera allenamento con AI</h2>
+
+      <div class="campo">
+        <label>Linee guida per l'AI</label>
+        <textarea id="campoLineeGuidaAI" rows="5" placeholder="Es: allenamento di 45 minuti per portiere di 6-7 anni, focus su presa bassa e uscite."></textarea>
+      </div>
+
+      <div class="campo" style="display:flex; align-items:center; gap:8px;">
+        <input type="checkbox" id="campoUsaLibreriaAI" checked style="width:auto;">
+        <label style="margin:0;">Preferisci esercizi già presenti nella libreria, quando possibile</label>
+      </div>
+
+      <button class="btn-primary" id="btnGeneraAllenamentoAI" style="width:100%;">✨ Genera allenamento</button>
+
+      <div id="risultatoAI" style="margin-top:16px;"></div>
+
+      <div id="azioniRisultatoAI" style="display:none; margin-top:14px;">
+        <div class="campo" style="display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" id="campoSalvaEserciziAI" checked style="width:auto;">
+          <label style="margin:0;">Salva anche i nuovi esercizi nella libreria</label>
+        </div>
+        <div class="modale-azioni">
+          <button class="btn-secondary" id="btnAnnullaGeneraAI">Chiudi</button>
+          <button class="btn-primary" id="btnUsaAllenamentoAI">Usa questo allenamento →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODALE DESCRIZIONE ESERCIZIO (tocco su telefono) ===== -->
+  <div class="overlay" id="overlayDescEsercizio">
+    <div class="modale" style="max-width:420px;">
+      <h2 id="titoloDescEsercizio">Esercizio</h2>
+      <p id="testoDescEsercizio" style="line-height:1.6; color:var(--testo);"></p>
+      <div class="modale-azioni">
+        <button class="btn-primary" id="btnChiudiDescEsercizio">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/allenamenti.js"></script>
 </body>
 </html>
