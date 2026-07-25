@@ -20,7 +20,7 @@ const previewFotoEs = document.getElementById("previewFotoEs");
 
 let fotoEsBase64Corrente = "";
 
-const ORDINE_CATEGORIE = ["Riscaldamento", "Presa", "Uscite", "Rinvio", "Riflessi", "Piazzamento", "Gioco con i piedi"];
+const ORDINE_CATEGORIE = ["Riscaldamento", "Presa", "Uscite", "Rinvio", "Riflessi", "Piazzamento", "Gioco con i piedi", "Forza"];
 
 let eserciziCache = {};
 let idEsercizioCorrente = null;
@@ -302,7 +302,7 @@ btnGeneraEsercizioAIAvvia.addEventListener("click", async () => {
     const promptSistema = `Sei un preparatore dei portieri esperto di settore giovanile del calcio, categoria "Primi Calci" (bambini di 6-7 anni).
 Genera UN SINGOLO esercizio specifico per portieri in base alle indicazioni del coach.
 Rispondi SOLO con un oggetto JSON valido, senza testo prima o dopo, con esattamente questa struttura:
-{"nome": "...", "cat": "Riscaldamento|Presa|Uscite|Rinvio|Riflessi|Piazzamento|Gioco con i piedi", "dur": "15", "players": "2", "desc": "..."}
+{"nome": "...", "cat": "Riscaldamento|Presa|Uscite|Rinvio|Riflessi|Piazzamento|Gioco con i piedi|Forza", "dur": "15", "players": "2", "desc": "..."}
 La descrizione deve essere chiara e pratica, adatta a bambini di 6-7 anni: obiettivo e svolgimento in poche frasi, scritte su una sola riga senza andare a capo. Il campo "players" indica il numero indicativo di portieri coinvolti.`;
 
     const promptUtente = `Linee guida del coach: ${lineeGuida}`;

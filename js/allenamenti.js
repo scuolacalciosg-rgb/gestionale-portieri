@@ -23,7 +23,7 @@ let allenamentiCache = {};
 let eserciziLibreria = {};
 let idAllenamentoCorrente = null;
 
-const CATEGORIE_ESERCIZIO = ["Riscaldamento", "Presa", "Uscite", "Rinvio", "Riflessi", "Piazzamento", "Gioco con i piedi"];
+const CATEGORIE_ESERCIZIO = ["Riscaldamento", "Presa", "Uscite", "Rinvio", "Riflessi", "Piazzamento", "Gioco con i piedi", "Forza"];
 
 function formattaData(dataStr) {
   if (!dataStr) return "-";
@@ -496,7 +496,7 @@ Regole:
 - La somma dei minuti (campo "dur") deve corrispondere il più possibile alla durata totale richiesta dal coach (tolleranza massima 10 minuti in più o in meno).
 - Se ti viene fornito un elenco di esercizi già in libreria, NON limitarti a copiarli tutti: scegli solo quelli più adatti, e componi il resto inventando esercizi nuovi e coerenti.
 Rispondi SOLO con un oggetto JSON valido, senza testo prima o dopo, con esattamente questa struttura:
-{"titolo": "...", "note": "...", "esercizi": [{"nome": "...", "cat": "Riscaldamento|Presa|Uscite|Rinvio|Riflessi|Piazzamento|Gioco con i piedi", "dur": "15", "desc": "..."}]}
+{"titolo": "...", "note": "...", "esercizi": [{"nome": "...", "cat": "Riscaldamento|Presa|Uscite|Rinvio|Riflessi|Piazzamento|Gioco con i piedi|Forza", "dur": "15", "desc": "..."}]}
 Le descrizioni devono essere chiare, pratiche e adatte a bambini di 6-7 anni, su una sola riga senza andare a capo.`;
 
     let promptUtente = `Linee guida del coach: ${lineeGuida}`;
