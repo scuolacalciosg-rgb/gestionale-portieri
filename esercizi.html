@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esercizi - Gestionale Portieri</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="assets/stemma.png" alt="Stemma San Giovanni">
+      <span>Gestionale<br>Portieri</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html">🏠 Dashboard</a>
+      <a href="giocatori.html">🧤 Portieri</a>
+      <a href="allenamenti.html">📋 Allenamenti</a>
+      <a href="esercizi.html" class="active">🏃 Esercizi</a>
+      <a href="rapporti.html">📝 Rapporti</a>
+      <a href="calendario.html">📅 Calendario</a>
+    </nav>
+    <div class="sidebar-logout">
+      <button id="btnLogout">Esci</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-ricerca">
+        <input type="text" placeholder="Cerca...">
+      </div>
+    </div>
+
+  <div class="container">
+    <div class="section-title">
+      <h2>🏃 Esercizi</h2>
+    </div>
+    <p style="color:var(--testo-chiaro);">🚧 Questa sezione arriva nel prossimo aggiornamento!</p>
+  </div>
+  </div>
+  </div>
+
+  <script type="module">
+    import { proteggiPagina, collegaLogout } from "./js/auth-guard.js";
+    await proteggiPagina();
+    collegaLogout();
+  </script>
+</body>
+</html>

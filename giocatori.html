@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portieri - Gestionale Portieri</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="assets/stemma.png" alt="Stemma San Giovanni">
+      <span>Gestionale<br>Portieri</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html">🏠 Dashboard</a>
+      <a href="giocatori.html" class="active">🧤 Portieri</a>
+      <a href="allenamenti.html">📋 Allenamenti</a>
+      <a href="esercizi.html">🏃 Esercizi</a>
+      <a href="rapporti.html">📝 Rapporti</a>
+      <a href="calendario.html">📅 Calendario</a>
+    </nav>
+    <div class="sidebar-logout">
+      <button id="btnLogout">Esci</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-ricerca">
+        <input type="text" id="ricercaGlobale" placeholder="Cerca...">
+      </div>
+    </div>
+
+  <div class="container">
+    <div class="section-title">
+      <h2>Elenco Portieri</h2>
+      <button class="btn-primary" id="btnNuovoGiocatore">+ Nuovo portiere</button>
+    </div>
+
+    <div class="lista-giocatori" id="listaGiocatori">
+      <div class="loading">Caricamento portieri...</div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <!-- ===== MODALE SCHEDA PORTIERE ===== -->
+  <div class="overlay" id="overlayGiocatore">
+    <div class="modale">
+      <h2 id="modaleTitolo">Scheda portiere</h2>
+
+      <div class="campo" style="text-align:center;">
+        <img id="previewFoto" src="" alt="Foto portiere"
+             style="width:120px;height:120px;border-radius:50%;object-fit:cover;background:#eee;display:block;margin:0 auto 10px auto;">
+        <input type="file" id="inputFoto" accept="image/*" capture="environment">
+      </div>
+
+      <div class="campo">
+        <label>Nome e cognome</label>
+        <input type="text" id="campoNome" placeholder="Es. Mario Rossi">
+      </div>
+
+      <div class="campo">
+        <label>Numero di maglia</label>
+        <input type="text" id="campoNumero" placeholder="Es. 1">
+      </div>
+
+      <div class="campo">
+        <label>Data di nascita</label>
+        <input type="date" id="campoDataNascita">
+      </div>
+
+      <div class="campo">
+        <label>Categoria</label>
+        <input type="text" id="campoCategoria" placeholder="Es. Piccoli Amici">
+      </div>
+
+      <div class="campo">
+        <label>Stato</label>
+        <select id="campoStato">
+          <option value="Disponibile">Disponibile</option>
+          <option value="Infortunato">Infortunato</option>
+          <option value="Indisponibile">Indisponibile</option>
+          <option value="Recuperato">Recuperato</option>
+          <option value="Convocato">Convocato</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Genitore di riferimento</label>
+        <input type="text" id="campoGenitore" placeholder="Es. Michele">
+      </div>
+
+      <div class="campo">
+        <label>Contatto telefonico</label>
+        <input type="text" id="campoContatto" placeholder="Es. 3469493065">
+      </div>
+
+      <div class="campo">
+        <label>Note tecniche</label>
+        <textarea id="campoNote" rows="3" placeholder="Caratteristiche, punti di forza, aspetti su cui lavorare..."></textarea>
+      </div>
+
+      <div class="modale-azioni">
+        <button class="btn-danger" id="btnEliminaGiocatore" style="display:none;">Elimina</button>
+        <button class="btn-secondary" id="btnAnnullaGiocatore">Annulla</button>
+        <button class="btn-primary" id="btnSalvaGiocatore">Salva</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/giocatori.js"></script>
+</body>
+</html>
