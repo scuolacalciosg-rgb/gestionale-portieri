@@ -36,17 +36,110 @@
 
   <div class="container">
     <div class="section-title">
-      <h2>🏃 Esercizi</h2>
+      <h2>Libreria Esercizi Portieri</h2>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-secondary" id="btnGeneraEsercizioAI">🤖 Genera con AI</button>
+        <button class="btn-primary" id="btnNuovoEsercizio">+ Nuovo esercizio</button>
+      </div>
     </div>
-    <p style="color:var(--testo-chiaro);">🚧 Questa sezione arriva nel prossimo aggiornamento!</p>
+
+    <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+      <select id="filtroCategoria" style="padding:10px; border:1px solid var(--bordo); border-radius:8px; min-width:180px;">
+        <option value="">Tutte le categorie</option>
+        <option value="Riscaldamento">Riscaldamento</option>
+        <option value="Presa">Presa (alta e bassa)</option>
+        <option value="Uscite">Uscite</option>
+        <option value="Rinvio">Rinvio (mani e piedi)</option>
+        <option value="Riflessi">Riflessi</option>
+        <option value="Piazzamento">Piazzamento</option>
+        <option value="Gioco con i piedi">Gioco con i piedi</option>
+      </select>
+      <input type="text" id="ricercaEsercizio" placeholder="Cerca per nome..." style="flex:1; min-width:200px; padding:10px; border:1px solid var(--bordo); border-radius:8px;">
+    </div>
+
+    <p id="contatoreRisultati" style="color:var(--testo-chiaro); font-size:0.9rem; margin-bottom:12px;"></p>
+
+    <div id="listaEsercizi">
+      <div class="loading">Caricamento esercizi...</div>
+    </div>
   </div>
   </div>
   </div>
 
-  <script type="module">
-    import { proteggiPagina, collegaLogout } from "./js/auth-guard.js";
-    await proteggiPagina();
-    collegaLogout();
-  </script>
+  <!-- ===== MODALE ESERCIZIO ===== -->
+  <div class="overlay" id="overlayEsercizio">
+    <div class="modale">
+      <h2 id="modaleTitoloEs">Esercizio</h2>
+
+      <div class="campo">
+        <label>Nome esercizio</label>
+        <input type="text" id="campoNomeEs" placeholder="Es. Presa a terra laterale">
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <div class="campo" style="flex:1;">
+          <label>Categoria</label>
+          <select id="campoCatEs">
+            <option value="Riscaldamento">Riscaldamento</option>
+            <option value="Presa">Presa (alta e bassa)</option>
+            <option value="Uscite">Uscite</option>
+            <option value="Rinvio">Rinvio (mani e piedi)</option>
+            <option value="Riflessi">Riflessi</option>
+            <option value="Piazzamento">Piazzamento</option>
+            <option value="Gioco con i piedi">Gioco con i piedi</option>
+          </select>
+        </div>
+        <div class="campo" style="width:100px;">
+          <label>Durata (min)</label>
+          <input type="number" id="campoDurEs" value="15">
+        </div>
+        <div class="campo" style="width:100px;">
+          <label>N. portieri</label>
+          <input type="text" id="campoPlayersEs" placeholder="Es. 2">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Descrizione / svolgimento</label>
+        <textarea id="campoDescEs" rows="5" placeholder="Obiettivo, svolgimento, varianti..."></textarea>
+      </div>
+
+      <div class="campo" style="text-align:center;">
+        <label style="text-align:left;">Immagine / schema (facoltativo)</label>
+        <img id="previewFotoEs" src="" alt="Immagine esercizio"
+             style="max-width:100%; max-height:200px; border-radius:8px; object-fit:contain; background:#eee; display:none; margin:0 auto 10px auto;">
+        <input type="file" id="inputFotoEs" accept="image/*" capture="environment">
+      </div>
+
+      <div class="modale-azioni">
+        <button class="btn-danger" id="btnEliminaEsercizio" style="display:none;">Elimina</button>
+        <button class="btn-secondary" id="btnAnnullaEsercizio">Annulla</button>
+        <button class="btn-primary" id="btnSalvaEsercizio">Salva</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODALE GENERA ESERCIZIO CON AI ===== -->
+  <div class="overlay" id="overlayGeneraEsercizioAI">
+    <div class="modale" style="max-width:560px;">
+      <h2>🤖 Genera esercizio con AI</h2>
+
+      <div class="campo">
+        <label>Linee guida per l'AI</label>
+        <textarea id="campoLineeGuidaEsAI" rows="4" placeholder="Es: esercizio di 10 minuti per allenare la presa bassa, per un portiere di 6-7 anni."></textarea>
+      </div>
+
+      <button class="btn-primary" id="btnGeneraEsercizioAIAvvia" style="width:100%;">✨ Genera esercizio</button>
+
+      <div id="risultatoEsercizioAI" style="margin-top:16px;"></div>
+
+      <div id="azioniRisultatoEsercizioAI" style="display:none; margin-top:14px;" class="modale-azioni">
+        <button class="btn-secondary" id="btnAnnullaGeneraEsercizioAI">Chiudi</button>
+        <button class="btn-primary" id="btnUsaEsercizioAI">Usa questo esercizio →</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/esercizi.js"></script>
 </body>
 </html>
