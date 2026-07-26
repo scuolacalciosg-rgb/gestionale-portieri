@@ -444,6 +444,19 @@ overlayAllenamento.addEventListener("click", (e) => {
 caricaAllenamenti();
 caricaLibreriaEsercizi();
 
+// Se arrivo da un link diretto (es. dalla Dashboard) con ?id=..., apro subito quella scheda
+const parametriURL = new URLSearchParams(window.location.search);
+const idDaAprire = parametriURL.get("id");
+if (idDaAprire) {
+  const attendiEApri = setInterval(() => {
+    if (allenamentiCache[idDaAprire]) {
+      clearInterval(attendiEApri);
+      apriModificaAllenamento(idDaAprire);
+    }
+  }, 150);
+  setTimeout(() => clearInterval(attendiEApri), 5000);
+}
+
 // ============================================
 // GENERA ALLENAMENTO CON AI
 // ============================================

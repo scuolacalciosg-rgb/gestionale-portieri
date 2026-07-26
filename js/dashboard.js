@@ -6,6 +6,7 @@ collegaLogout();
 
 const dataOggiEl = document.getElementById("dataOggi");
 const ultimeNotizieDiv = document.getElementById("ultimeNotizie");
+const prossimiAllenamentiDiv = document.getElementById("prossimiAllenamenti");
 const prossimePartiteDiv = document.getElementById("prossimePartite");
 
 function formattaData(dataStr) {
@@ -54,6 +55,37 @@ async function caricaNotizie() {
   }
 }
 
+async function caricaProssimiAllenamenti() {
+  try {
+    const snap = await get(ref(db, "portieri_trainings"));
+    const trainings = snap.exists() ? snap.val() : {};
+
+    const oggi = isoLocale(new Date());
+    const ids = Object.keys(trainings)
+      .filter(id => trainings[id].data >= oggi)
+      .sort((a, b) => trainings[a].data.localeCompare(trainings[b].data))
+      .slice(0, 5);
+
+    if (ids.length === 0) {
+      prossimiAllenamentiDiv.innerHTML = `<p style="color:var(--testo-chiaro);">Nessun allenamento futuro in programma.</p>`;
+      return;
+    }
+
+    prossimiAllenamentiDiv.innerHTML = ids.map(id => {
+      const t = trainings[id];
+      return `
+        <a class="mini-card" href="allenamenti.html?id=${id}">
+          <h3>📋 ${t.titolo || "Allenamento"}</h3>
+          <div class="mini-meta">📅 ${formattaData(t.data)}${t.ora ? " · ore " + t.ora : ""}${t.luogo ? " · 📍 " + t.luogo : ""}</div>
+        </a>
+      `;
+    }).join("");
+  } catch (err) {
+    console.error(err);
+    prossimiAllenamentiDiv.innerHTML = `<p style="color:var(--rosso);">Errore: ${err.message}</p>`;
+  }
+}
+
 async function caricaProssimePartite() {
   try {
     const snap = await get(ref(db, "portieri_partite"));
@@ -87,4 +119,5 @@ async function caricaProssimePartite() {
 
 mostraDataOggi();
 caricaNotizie();
+caricaProssimiAllenamenti();
 caricaProssimePartite();
