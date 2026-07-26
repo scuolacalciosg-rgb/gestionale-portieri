@@ -336,6 +336,16 @@ body {
   align-items: start;
 }
 
+.dash-colonne-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 1000px) {
+  .dash-colonne-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .dash-colonna .section-title h2 {
   font-size: 1.4rem;
   font-weight: 700;
