@@ -22,6 +22,15 @@ function isoLocale(d) {
   return `${anno}-${mese}-${giorno}`;
 }
 
+// Converte una data in formato "DD/MM/YYYY" (usata da news) in "YYYY-MM-DD"
+function convertiDataItalianaISO(dataItaliana) {
+  if (!dataItaliana) return "";
+  const parti = dataItaliana.split("/");
+  if (parti.length !== 3) return "";
+  const [giorno, mese, anno] = parti;
+  return `${anno}-${mese.padStart(2, "0")}-${giorno.padStart(2, "0")}`;
+}
+
 function mostraDataOggi() {
   const oggi = new Date();
   const formattata = oggi.toLocaleDateString("it-IT", {
@@ -33,22 +42,27 @@ function mostraDataOggi() {
 async function caricaNotizie() {
   try {
     const snap = await get(ref(db, "portieri_news"));
-    const notizie = snap.exists() ? Object.values(snap.val()) : [];
+    const newsObj = snap.exists() ? snap.val() : {};
+    const ids = Object.keys(newsObj);
 
-    if (notizie.length === 0) {
+    if (ids.length === 0) {
       ultimeNotizieDiv.innerHTML = `<p style="color:var(--testo-chiaro);">Nessuna comunicazione pubblicata.</p>`;
       return;
     }
 
-    notizie.sort((a, b) => Number(b.ts || 0) - Number(a.ts || 0));
+    ids.sort((a, b) => Number(newsObj[b].ts || 0) - Number(newsObj[a].ts || 0));
 
-    ultimeNotizieDiv.innerHTML = notizie.slice(0, 5).map(n => `
-      <div class="mini-card">
-        <h3>${n.titolo || "Comunicazione"}</h3>
-        <div class="mini-meta">${n.data || ""}${n.autore ? " · " + n.autore : ""}</div>
-        ${n.body ? `<div class="mini-testo">${n.body}</div>` : ""}
-      </div>
-    `).join("");
+    ultimeNotizieDiv.innerHTML = ids.slice(0, 5).map(id => {
+      const n = newsObj[id];
+      const dataISO = convertiDataItalianaISO(n.data);
+      return `
+        <a class="mini-card" href="calendario.html?data=${dataISO}">
+          <h3>📰 ${n.titolo || "Comunicazione"}</h3>
+          <div class="mini-meta">${n.data || ""}${n.autore ? " · " + n.autore : ""}</div>
+          ${n.body ? `<div class="mini-testo">${n.body}</div>` : ""}
+        </a>
+      `;
+    }).join("");
   } catch (err) {
     console.error(err);
     ultimeNotizieDiv.innerHTML = `<p style="color:var(--rosso);">Errore: ${err.message}</p>`;
